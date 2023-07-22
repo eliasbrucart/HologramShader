@@ -3,51 +3,93 @@ Shader "Custom/Hologram"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _Glossiness ("Smoothness", Range(0,1)) = 0.5
-        _Metallic ("Metallic", Range(0,1)) = 0.0
+        _MainTex ("Base (RGB)", 2D) = "white" {}
+        _AlphaTexture ("Alpha Mask (R)", 2D) = "White" {}
+        //Alpha Mask Properties
+        _Scale ("Alpha Tiling", Float) = 3
+        _ScrollSpeedV("Alpha scroll Speed", Range(0, 5.0)) = 1.0
+        //Glow
+        _GlowIntensisty("Glow Intensisty", Range(0.01, 1.0)) = 0.5
+        //Glitch
+        _GlitchSpeed("Glitch Speed", Range(0, 50)) = 50.0
+        _GlitchIntensity("Glitch Intensity", Range(0.0, 0.1)) = 0
+        //_Glossiness("Smoothness", Range(0,1)) = 0.5
+        //_Metallic ("Metallic", Range(0,1)) = 0.0
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 200
+        Tags {  "Queue" = "Overlay" "IgnoreProjector" = "True" "RenderType"="Transparent" }
 
-        CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+        Pass{
 
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
+            Lighting Off
+            ZWrite On
+            Blend SrcAlpha One
+            Cull Back
 
-        sampler2D _MainTex;
+            CGPROGRAM
 
-        struct Input
-        {
-            float2 uv_MainTex;
-        };
+            //Declaramos los metodos
+            #pragma vertex vertexFunc
+            #pragma fragment fragmentFunc
 
-        half _Glossiness;
-        half _Metallic;
-        fixed4 _Color;
+            #include "UnityCG.cginc"
 
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
+            struct appdata {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
+            };
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-            o.Albedo = c.rgb;
-            // Metallic and smoothness come from slider variables
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
+            struct v2f{
+                float4 position : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 grabPos : TEXCOORD1;
+                float3 viewDir : TEXCOORD2;
+                float3 worldNormal : NORMAL;
+            };
+
+            fixed4 _Color, _MainTex_ST;
+            sampler2D _MainTex, _AlphaTexture;
+            half _Scale, _ScrollSpeedV, _GlowIntensity, _GlitchSpeed, _GlitchIntensity;
+
+            v2f vertexFunc(appdata IN) {
+                v2f OUT;
+
+                //Calculamos el Glitch
+                IN.vertex.z += sin(_Time.y * _GlitchSpeed * 5 * IN.vertex.y) * _GlitchIntensity;
+
+                OUT.position = UnityObjectToClipPos(IN.vertex);
+                OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
+
+                //Coordenadas de la mascara Alpha
+                OUT.grabPos = UnityObjectToViewPos(IN.vertex);
+
+                //Scroll Alpha mask uv
+                OUT.grabPos.y += _Time * _ScrollSpeedV;
+
+                OUT.worldNormal = UnityObjectToWorldNormal(IN.normal);
+                OUT.viewDir = normalize(UnityWorldSpaceViewDir(OUT.grabPos.xyz));
+
+                return OUT;
+            }
+
+            fixed4 fragmentFunc(v2f IN) : SV_Target{
+                half dirVertex = (dot(IN.grabPos, 1.0) + 1) / 2;
+
+                fixed4 alphaColor = tex2D(_AlphaTexture, IN.grabPos.xy * _Scale);
+                fixed4 pixelColor = tex2D(_MainTex, IN.uv);
+                pixelColor.w = alphaColor.w;
+
+                //Rim Light
+                half rim = 1.0 - saturate(dot(IN.viewDir, IN.worldNormal));
+
+                return pixelColor * _Color * (rim + _GlowIntensity);
+            }
+
+            ENDCG
+
         }
-        ENDCG
     }
     FallBack "Diffuse"
 }
