@@ -7,7 +7,7 @@ Shader "Custom/Hologram"
         _AlphaTexture ("Alpha Mask (R)", 2D) = "White" {}
         //Alpha Mask Properties
         _Scale ("Alpha Tiling", Float) = 3
-        _ScrollSpeedV("Alpha scroll Speed", Range(0, 5.0)) = 1.0
+        _ScrollSpeedV("Alpha scroll Speed", Range(0, 10.0)) = 1.0
         //Glow
         _GlowIntensisty("Glow Intensisty", Range(0.01, 1.0)) = 0.5
         //Glitch
@@ -91,5 +91,5 @@ Shader "Custom/Hologram"
 
         }
     }
-    FallBack "Diffuse"
+    //FallBack "Diffuse"
 }
