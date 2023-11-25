@@ -30,12 +30,12 @@ Shader "Custom/Hologram"
             CGPROGRAM
 
             //Declaramos los metodos
-            #pragma vertex vertexFunc
-            #pragma fragment fragmentFunc
+            #pragma vertex vertexFunc //metodo del tipo vertex shader
+            #pragma fragment fragmentFunc //metodo del tipo fragment shader
 
-            #include "UnityCG.cginc"
+            #include "UnityCG.cginc" //incluimos libreria de unity para shaders
 
-            struct appdata {
+            struct appdata { //appdata lo incluye el include de arriba
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;

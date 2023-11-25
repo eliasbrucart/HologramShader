@@ -38,10 +38,16 @@ public class HologramShaderGUI : ShaderGUI
     private MaterialProperty Flicker = null;
     private MaterialProperty FlickerSpeed = null;
 
+    //Flicker 2
+    private MaterialProperty Flicker2 = null;
+    private MaterialProperty Flicker2Scale = null;
+    private MaterialProperty Flicker2Speed = null;
+
     private static class Styles
     {
         public static GUIContent AlbedoText = new GUIContent("Albedo");
         public static GUIContent FlickerText = new GUIContent("Flicker Mask");
+        public static GUIContent Flicker2Text = new GUIContent("Flicker 2 Mask");
     }
 
     enum Category
@@ -72,6 +78,10 @@ public class HologramShaderGUI : ShaderGUI
 
         Flicker = FindProperty("_FlickerTex", _props);
         FlickerSpeed = FindProperty("_FlickerSpeed", _props);
+
+        Flicker2 = FindProperty("_FlickerTex2", _props);
+        Flicker2Scale = FindProperty("_FlickerScale2", _props);
+        Flicker2Speed = FindProperty("_FlickerSpeed2", _props);
     }
 
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] props)

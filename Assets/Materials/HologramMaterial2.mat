@@ -24,28 +24,47 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _FlickerTex:
-        m_Texture: {fileID: 2800000, guid: d9cbc5d6bae47d047805632aa7792c4d, type: 3}
+        m_Texture: {fileID: 2800000, guid: ea5f4af375f189c4ea5b9c3f9519a9a1, type: 3}
         m_Scale: {x: 1.66, y: 1.28}
         m_Offset: {x: 0, y: -0.02}
+    - _FlickerTex2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.44
-    - _Brightness: 1.54
-    - _FlickerSpeed: 0.01
+    - _Alpha: 0.47
+    - _Brightness: 1.19
+    - _EmissionMultiplier: 1
+    - _FlickerScale2: 3
+    - _FlickerSpeed: 39
+    - _FlickerSpeed2: 1
     - _Fold: 3
-    - _GlitchIntensity: 0.35
-    - _GlitchSpeed: 8
-    - _GlowSpeed: 10
-    - _GlowTiling: 0.06
-    - _RimPower: 0.7
-    - _ScanSpeed: -1.43
-    - _ScanTiling: 8.5
+    - _GlitchDensity: 0
+    - _GlitchIntensity: 1.01
+    - _GlitchPeriod: 0
+    - _GlitchSpeed: 15.1
+    - _GlitchStrength: 0
+    - _GlowSpeed: -5.6
+    - _GlowTiling: 0.9
+    - _HoloDistance: 0.5
+    - _HoloSpeed: 1
+    - _HoloValue: 1
+    - _RimPower: 0.1
+    - _Scale: 3
+    - _ScanSpeed: 2
+    - _ScanTiling: 10
+    - _ScrollSpeedV: 1
     m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Direction: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0, g: 0.78356886, b: 1, a: 1}
-    - _RimColor: {r: 0, g: 1, b: 0.291157, a: 1}
+    - _GlitchDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _HoloColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HoloDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _MainColor: {r: 0.78688645, g: 1, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 0, b: 0.30828476, a: 1}
   m_BuildTextureStacks: []

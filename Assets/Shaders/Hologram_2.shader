@@ -25,19 +25,26 @@
 		_FlickerTex ("Flicker Control Texture", 2D) = "white" {}
 		_FlickerSpeed ("Flicker Speed", Range(0.01, 100)) = 1.0
 
+		_FlickerTex2("Flicker Control Texture 2 (R)", 2D) = "White" {}
+		//Alpha Mask Properties
+		_FlickerScale2("Flicker Texture 2 Scale", Float) = 3
+		_FlickerSpeed2("Flicker 2 scroll Speed", Range(0, 10.0)) = 1.0
+
 		// Settings
 		[HideInInspector] _Fold("__fld", Float) = 1.0
 	}
 	SubShader
 	{
-		Tags { "Queue"="Transparent" "RenderType"="Transparent" }
-		Blend SrcAlpha OneMinusSrcAlpha
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" } //Etiquetas del subshader
+		//configuraciones compatibles con el subshader
+		Blend SrcAlpha OneMinusSrcAlpha 
 		LOD 100
 		ColorMask RGB
         Cull Back
 
 		Pass
 		{
+			//instrucciones que se ejecutan antes de pasar por los programas del shader
 			CGPROGRAM
 			#pragma shader_feature _SCAN_ON
 			#pragma shader_feature _GLOW_ON
@@ -80,7 +87,7 @@
 			float _GlowSpeed;
 			float _FlickerSpeed;
 			
-			v2f vert (appdata v)
+			v2f vert (appdata v) //Procesamiento de los vertices
 			{
 				v2f o;
 				
@@ -100,7 +107,7 @@
 			}
 
 			
-			fixed4 frag (v2f i) : SV_Target
+			fixed4 frag (v2f i) : SV_Target //Procesamiento de los fragmentos
 			{
 				fixed4 texColor = tex2D(_MainTex, i.uv);
 
@@ -125,7 +132,7 @@
 				half rim = 1.0-saturate(dot(i.viewDir, i.worldNormal));
 				fixed4 rimColor = _RimColor * pow (rim, _RimPower);
 
-				fixed4 col = texColor * _MainColor + (glow * 0.35 * _MainColor) + rimColor;
+				fixed4 col = texColor * _MainColor + (glow * 0.45 * _MainColor) + rimColor;
 				col.a = texColor.a * _Alpha * (scan + rim + glow) * flicker;
 
 				col.rgb *= _Brightness;

@@ -20,8 +20,8 @@ Shader "Custom/Hologram_3"
         Pass{
             CGPROGRAM
             #pragma vertex vert
-        #pragma fragment frag
-        #include "UnityCG.cginc"
+            #pragma fragment frag
+            #include "UnityCG.cginc"
 
             // Shader properties
             sampler2D _MainTex;
@@ -56,26 +56,26 @@ Shader "Custom/Hologram_3"
                 // Calculate hologram color with intensity
                 fixed4 hologramColor = _Color * _Intensity;
 
-            // Offset the UV to make the texture scroll over time
-            float2 offset = float2(_Speed * _Time.y, _Speed * _Time.x);
-            float2 uv = i.uv + offset;
+                // Offset the UV to make the texture scroll over time
+                float2 offset = float2(_Speed * _Time.y, _Speed * _Time.x);
+                float2 uv = i.uv + offset;
 
-            // Sample the hologram texture and apply color
-            fixed4 texColor = tex2D(_MainTex, uv) * hologramColor;
+                // Sample the hologram texture and apply color
+                fixed4 texColor = tex2D(_MainTex, uv) * hologramColor;
 
-            // Calculate distance to the edge
-            float2 center = 0.5 * _ScreenParams.zw;
-            float distToEdge = length(i.screenPos - center) / length(center);
+                // Calculate distance to the edge
+                float2 center = 0.5 * _ScreenParams.zw;
+                float distToEdge = length(i.screenPos - center) / length(center);
 
-            // Apply edge glow effect
-            float edgeGlow = smoothstep(_EdgeWidth, 0, distToEdge);
-            fixed4 edgeColor = _Color * _EdgeIntensity * edgeGlow;
+                // Apply edge glow effect
+                float edgeGlow = smoothstep(_EdgeWidth, 0, distToEdge);
+                fixed4 edgeColor = _Color * _EdgeIntensity * edgeGlow;
 
-            // Combine the hologram color with the edge glow
-            fixed4 finalColor = texColor + edgeColor;
+                // Combine the hologram color with the edge glow
+                fixed4 finalColor = texColor + edgeColor;
 
-            return finalColor;
-        }
+                return finalColor;
+            }
             ENDCG
         }
 
