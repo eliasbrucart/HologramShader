@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HologramMaterial_4
+  m_Shader: {fileID: 4800000, guid: 2bfe1d7aacb4a7042bf85041a38c83ee, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTexture:
+        m_Texture: {fileID: 2800000, guid: f878de133fdd1a143bfd3afaa7f34da9, type: 3}
+        m_Scale: {x: 2.2, y: 13.14}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _GlitchIntensity: 0.007
+    - _GlitchSpeed: 50
+    - _GlowIntensisty: 0.7
+    - _Scale: 3
+    - _ScrollSpeedV: 4.7
+    m_Colors:
+    - _Color: {r: 0.2825942, g: 1, b: 0, a: 1}
+  m_BuildTextureStacks: []

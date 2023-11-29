@@ -299,5 +299,16 @@ public class HologramShaderGUI : ShaderGUI
         EditorGUIUtility.labelWidth = ofs;
         _materialEditor.ShaderProperty(FlickerSpeed, "Speed");
         EditorGUI.indentLevel--;
+
+        GUILayout.Space(-3);
+        GUILayout.Label("Flicker2", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+        var ofs2 = EditorGUIUtility.labelWidth;
+        _materialEditor.SetDefaultGUIWidths();
+        EditorGUIUtility.labelWidth = 0;
+        _materialEditor.TexturePropertySingleLine(Styles.Flicker2Text, Flicker2, null);
+        EditorGUIUtility.labelWidth = ofs2;
+        _materialEditor.ShaderProperty(Flicker2Speed, "Flicker2Speed");
+        EditorGUI.indentLevel--;
     }
 }

@@ -1,95 +1,59 @@
-Shader "Custom/Hologram"
+Shader "Unlit/Hologram"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Base (RGB)", 2D) = "white" {}
-        _AlphaTexture ("Alpha Mask (R)", 2D) = "White" {}
-        //Alpha Mask Properties
-        _Scale ("Alpha Tiling", Float) = 3
-        _ScrollSpeedV("Alpha scroll Speed", Range(0, 10.0)) = 1.0
-        //Glow
-        _GlowIntensisty("Glow Intensisty", Range(0.01, 1.0)) = 0.5
-        //Glitch
-        _GlitchSpeed("Glitch Speed", Range(0, 50)) = 50.0
-        _GlitchIntensity("Glitch Intensity", Range(0.0, 0.1)) = 0
-        //_Glossiness("Smoothness", Range(0,1)) = 0.5
-        //_Metallic ("Metallic", Range(0,1)) = 0.0
+        _MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
-        Tags {  "Queue" = "Overlay" "IgnoreProjector" = "True" "RenderType"="Transparent" }
+        Tags { "RenderType"="Opaque" }
+        LOD 100
 
-        Pass{
-
-            Lighting Off
-            ZWrite On
-            Blend SrcAlpha One
-            Cull Back
-
+        Pass
+        {
             CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            // make fog work
+            #pragma multi_compile_fog
 
-            //Declaramos los metodos
-            #pragma vertex vertexFunc //metodo del tipo vertex shader
-            #pragma fragment fragmentFunc //metodo del tipo fragment shader
+            #include "UnityCG.cginc"
 
-            #include "UnityCG.cginc" //incluimos libreria de unity para shaders
-
-            struct appdata { //appdata lo incluye el include de arriba
+            struct appdata
+            {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal : NORMAL;
             };
 
-            struct v2f{
-                float4 position : SV_POSITION;
+            struct v2f //Este struct representa a un vertice
+            {
                 float2 uv : TEXCOORD0;
-                float3 grabPos : TEXCOORD1;
-                float3 viewDir : TEXCOORD2;
-                float3 worldNormal : NORMAL;
+                UNITY_FOG_COORDS(1)
+                float4 vertex : SV_POSITION;
             };
 
-            fixed4 _Color, _MainTex_ST;
-            sampler2D _MainTex, _AlphaTexture;
-            half _Scale, _ScrollSpeedV, _GlowIntensity, _GlitchSpeed, _GlitchIntensity;
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
 
-            v2f vertexFunc(appdata IN) {
-                v2f OUT;
-
-                //Calculamos el Glitch
-                IN.vertex.z += sin(_Time.y * _GlitchSpeed * 5 * IN.vertex.y) * _GlitchIntensity;
-
-                OUT.position = UnityObjectToClipPos(IN.vertex);
-                OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
-
-                //Coordenadas de la mascara Alpha
-                OUT.grabPos = UnityObjectToViewPos(IN.vertex);
-
-                //Scroll Alpha mask uv
-                OUT.grabPos.y += _Time * _ScrollSpeedV;
-
-                OUT.worldNormal = UnityObjectToWorldNormal(IN.normal);
-                OUT.viewDir = normalize(UnityWorldSpaceViewDir(OUT.grabPos.xyz));
-
-                return OUT;
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                UNITY_TRANSFER_FOG(o,o.vertex);
+                return o;
             }
 
-            fixed4 fragmentFunc(v2f IN) : SV_Target{
-                half dirVertex = (dot(IN.grabPos, 1.0) + 1) / 2;
-
-                fixed4 alphaColor = tex2D(_AlphaTexture, IN.grabPos.xy * _Scale);
-                fixed4 pixelColor = tex2D(_MainTex, IN.uv);
-                pixelColor.w = alphaColor.w;
-
-                //Rim Light
-                half rim = 1.0 - saturate(dot(IN.viewDir, IN.worldNormal));
-
-                return pixelColor * _Color * (rim + _GlowIntensity);
-            }
-
+            fixed4 frag (v2f i) : SV_Target
+            {
+                // sample the texture
+                fixed4 col = tex2D(_MainTex, i.uv);
+                // apply fog
+                UNITY_APPLY_FOG(i.fogCoord, col);
+                col = fixed4(cos(i.vertex.y),0,0,1);
+                return col;
+            } //El output del fragment shader es color
             ENDCG
-
         }
     }
-    //FallBack "Diffuse"
 }

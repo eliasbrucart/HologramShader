@@ -25,10 +25,9 @@
 		_FlickerTex ("Flicker Control Texture", 2D) = "white" {}
 		_FlickerSpeed ("Flicker Speed", Range(0.01, 100)) = 1.0
 
-		_FlickerTex2("Flicker Control Texture 2 (R)", 2D) = "White" {}
-		//Alpha Mask Properties
-		_FlickerScale2("Flicker Texture 2 Scale", Float) = 3
-		_FlickerSpeed2("Flicker 2 scroll Speed", Range(0, 10.0)) = 1.0
+		_Flicker2Tex ("Flicker 2 Control Texture", 2D) = "white" {}
+		_FlickerScale2 ("Flicker Texture 2 Scale", Float) = 3
+		_FlickerSpeed2 ("Flicker 2 scroll Speed", Range(0.01, 100)) = 1.0
 
 		// Settings
 		[HideInInspector] _Fold("__fld", Float) = 1.0
@@ -37,7 +36,7 @@
 	{
 		Tags { "Queue"="Transparent" "RenderType"="Transparent" } //Etiquetas del subshader
 		//configuraciones compatibles con el subshader
-		Blend SrcAlpha OneMinusSrcAlpha 
+		Blend SrcAlpha OneMinusSrcAlpha
 		LOD 100
 		ColorMask RGB
         Cull Back
@@ -72,6 +71,7 @@
 
 			sampler2D _MainTex;
 			sampler2D _FlickerTex;
+			sampler2D _Flicker2Tex;
 			float4 _Direction;
 			float4 _MainTex_ST;
 			float4 _MainColor;
@@ -86,6 +86,7 @@
 			float _GlowTiling;
 			float _GlowSpeed;
 			float _FlickerSpeed;
+			float _FlickerSpeed2;
 			
 			v2f vert (appdata v) //Procesamiento de los vertices
 			{
@@ -128,12 +129,15 @@
 				// Flicker
 				fixed4 flicker = tex2D(_FlickerTex, _Time * _FlickerSpeed);
 
+				//Flicker2
+				fixed4 flicker2 = tex2D(_Flicker2Tex, _Time * _FlickerSpeed2);
+
 				// Rim Light
 				half rim = 1.0-saturate(dot(i.viewDir, i.worldNormal));
 				fixed4 rimColor = _RimColor * pow (rim, _RimPower);
 
 				fixed4 col = texColor * _MainColor + (glow * 0.45 * _MainColor) + rimColor;
-				col.a = texColor.a * _Alpha * (scan + rim + glow) * flicker;
+				col.a = texColor.a * _Alpha * (scan + rim + glow) * flicker * flicker2;
 
 				col.rgb *= _Brightness;
 
