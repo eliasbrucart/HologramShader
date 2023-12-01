@@ -66,6 +66,8 @@ Shader "Unlit/Hologram"
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
+                col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9);
+                col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9);
                 return col; //El output del fragment shader es el color resultante de cada fragmento
             }
             ENDCG
