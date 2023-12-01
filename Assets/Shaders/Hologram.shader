@@ -1,13 +1,22 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "Unlit/Hologram"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color ("Color", Color) = (1,0,0,1)
+        _Bias("Bias", Float) = 0
+        _ScanningFrequency("Scanning Frequency", Float) = 100
+        _ScanningSpeed("Scanning Speed", Float) = 100
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Queue" = "Transparent" "RenderType" = "Transparent"} //Configuraciones para el shader
+        ZWrite Off
         LOD 100
+        Blend SrcAlpha One
+        Cull Off
 
         Pass
         {
@@ -19,29 +28,35 @@ Shader "Unlit/Hologram"
 
             #include "UnityCG.cginc"
 
-            struct appdata
+            struct appdata //vertice original
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
             };
 
-            struct v2f //Este struct representa a un vertice
+            struct v2f //Este struct representa a un vertice, vertice que vamos a modificar con la ayuda del vertice original
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
+                UNITY_FOG_COORDS(2)
                 float4 vertex : SV_POSITION;
+                float4 objVertex : TEXCOORD1;
             };
 
+            fixed4 _Color;
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _Bias;
+            float _ScanningFrequency;
+            float _ScanningSpeed;
 
-            v2f vert (appdata v)
+            v2f vert (appdata v) //vertice original como input de vertex shader
             {
                 v2f o;
+                o.objVertex = mul(unity_ObjectToWorld, v.vertex);
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;
+                return o; //vertice procesado que retornaremos para pasarlo al fragment
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -50,9 +65,9 @@ Shader "Unlit/Hologram"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
-                col = fixed4(cos(i.vertex.y),0,0,1);
-                return col;
-            } //El output del fragment shader es color
+                col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
+                return col; //El output del fragment shader es el color resultante de cada fragmento
+            }
             ENDCG
         }
     }
