@@ -47,7 +47,7 @@ Material:
     - _FlickerScale2: 3
     - _FlickerSpeed: 87
     - _FlickerSpeed2: 61
-    - _Fold: 0
+    - _Fold: 3
     - _GlitchDensity: 0
     - _GlitchIntensity: 1.01
     - _GlitchPeriod: 0

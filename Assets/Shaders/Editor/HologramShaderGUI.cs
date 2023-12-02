@@ -79,7 +79,7 @@ public class HologramShaderGUI : ShaderGUI
         Flicker = FindProperty("_FlickerTex", _props);
         FlickerSpeed = FindProperty("_FlickerSpeed", _props);
 
-        Flicker2 = FindProperty("_FlickerTex2", _props);
+        Flicker2 = FindProperty("_Flicker2Tex", _props);
         Flicker2Scale = FindProperty("_FlickerScale2", _props);
         Flicker2Speed = FindProperty("_FlickerSpeed2", _props);
     }
