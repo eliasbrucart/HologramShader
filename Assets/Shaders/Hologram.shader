@@ -76,12 +76,15 @@ Shader "Unlit/Hologram"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                
-                col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
-                col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en X
-                col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
 
-                col.a = col.a + _Alpha; //Aplicamos alpha al canal Alpha del color del fragmento
+                half directionVertex = (dot(i.objVertex, normalize(float4(_Direction.xyz, 1.0))) + 1) / 2;
+                
+                #ifdef _SCAN_ON
+                col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
+                col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 1.9); //Crear variable para este valor de Bias en X
+                col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
+                #endif
+                col.a = _Alpha; //Aplicamos alpha al canal Alpha del color del fragmento
 
                 col.rgb *= _Brightness;
 
@@ -90,4 +93,5 @@ Shader "Unlit/Hologram"
             ENDCG
         }
     }
+    CustomEditor "HologramShaderUI"
 }
