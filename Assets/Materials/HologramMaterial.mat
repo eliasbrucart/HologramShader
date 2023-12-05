@@ -63,7 +63,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.35
+    - _Alpha: 0.46
     - _Bias: 0.1
     - _Brightness: 4.21
     - _BumpScale: 1
@@ -81,8 +81,8 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 3
-    - _ScanningFrequency: 134.7
-    - _ScanningSpeed: -100
+    - _ScanningFrequency: 100
+    - _ScanningSpeed: 2
     - _ScrollSpeedV: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

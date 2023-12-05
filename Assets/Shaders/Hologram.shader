@@ -16,6 +16,8 @@ Shader "Unlit/Hologram"
         //Configuracion de las scanlines
         _ScanningFrequency("Scanning Frequency", Float) = 100
         _ScanningSpeed("Scanning Speed", Float) = 100
+        _ScanningBrightness("Scanning Brightness", Range(0.0, 1.0)) = 0.5
+        _ScanHeight("Scan Height", Range(0.0, 1.0)) = 0.5
     }
     SubShader
     {
@@ -61,6 +63,8 @@ Shader "Unlit/Hologram"
             float _Bias;
             float _ScanningFrequency;
             float _ScanningSpeed;
+            float _ScanningBrightness;
+            float _ScanHeight;
 
             v2f vert (appdata v) //vertice original como input de vertex shader
             {
@@ -78,13 +82,16 @@ Shader "Unlit/Hologram"
                 fixed4 col = tex2D(_MainTex, i.uv);
 
                 half directionVertex = (dot(i.objVertex, normalize(float4(_Direction.xyz, 1.0))) + 1) / 2;
-                
+
+                //Scanlines
+                float scan = 0.0;
                 #ifdef _SCAN_ON
-                col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
-                col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 1.9); //Crear variable para este valor de Bias en X
-                col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
+                    scan = step(frac(directionVertex * _ScanningFrequency + _Time.w * _ScanningSpeed), _ScanHeight) * _ScanningBrightness; //Este valor representa el brillo de las scanlines
                 #endif
-                col.a = _Alpha; //Aplicamos alpha al canal Alpha del color del fragmento
+                //col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
+                //col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 1.9); //Crear variable para este valor de Bias en X
+                //col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
+                col.a = col.a * _Alpha * (scan); //Aplicamos alpha al canal Alpha del color del fragmento
 
                 col.rgb *= _Brightness;
 
