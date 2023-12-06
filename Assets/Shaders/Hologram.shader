@@ -18,6 +18,11 @@ Shader "Unlit/Hologram"
         _ScanningSpeed("Scanning Speed", Float) = 100
         _ScanningBrightness("Scanning Brightness", Range(0.0, 1.0)) = 0.5
         _ScanHeight("Scan Height", Range(0.0, 1.0)) = 0.5
+        //Configuracion de Glitch
+        _GlitchSpeed("Glitch Speed", Range(0, 50)) = 1.0
+        _GlitchIntensity("Glitch Intensity", Float) = 0
+        _BlurGlitch("Blur Glitch", Range(0, 100)) = 1.0
+        _GlitchFrequency("Glitch Frequency", Range(0, 5)) = 5.0
     }
     SubShader
     {
@@ -65,10 +70,19 @@ Shader "Unlit/Hologram"
             float _ScanningSpeed;
             float _ScanningBrightness;
             float _ScanHeight;
+            float _GlitchSpeed;
+            float _GlitchIntensity;
+            float _BlurGlitch;
+            float _GlitchFrequency;
 
             v2f vert (appdata v) //vertice original como input de vertex shader
             {
                 v2f o;
+
+                #ifdef _GLITCH_ON
+                    v.vertex.x += _GlitchIntensity * (step(0.5, sin(_Time.y * _GlitchFrequency + v.vertex.y * _BlurGlitch)) * step(0.99, sin(_Time.y * _GlitchSpeed * 0.5)));
+                #endif
+
                 o.objVertex = mul(unity_ObjectToWorld, v.vertex);
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);

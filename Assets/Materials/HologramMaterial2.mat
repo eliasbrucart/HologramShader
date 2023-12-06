@@ -51,7 +51,7 @@ Material:
     - _GlitchDensity: 0
     - _GlitchIntensity: 1.01
     - _GlitchPeriod: 0
-    - _GlitchSpeed: 15.1
+    - _GlitchSpeed: 11.8
     - _GlitchStrength: 0
     - _GlowSpeed: -5.6
     - _GlowTiling: 0.9
