@@ -67,14 +67,14 @@ Material:
     - _Alpha: 0.46
     - _Bias: 0.1
     - _BlurGlitch: 13
-    - _Brightness: 4.21
+    - _Brightness: 4.42
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _GlitchFrequency: 1
-    - _GlitchIntensity: 1
-    - _GlitchSpeed: 9.5
+    - _GlitchFrequency: 0.42
+    - _GlitchIntensity: 0.3
+    - _GlitchSpeed: 10.2
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -86,13 +86,14 @@ Material:
     - _Scale: 3
     - _ScanBrightness: 100
     - _ScanHeight: 0.47
-    - _ScanningBrightness: 0.3
+    - _ScanningBrightness: 0.7
     - _ScanningFrequency: 100
     - _ScanningSpeed: 2
     - _ScrollSpeedV: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TimeInGlitch: 0.73
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

@@ -23,6 +23,7 @@ Shader "Unlit/Hologram"
         _GlitchIntensity("Glitch Intensity", Float) = 0
         _BlurGlitch("Blur Glitch", Range(0, 100)) = 1.0
         _GlitchFrequency("Glitch Frequency", Range(0, 5)) = 5.0
+        _TimeInGlitch("Time Glitch", Range(0, 1)) = 0.99
     }
     SubShader
     {
@@ -74,13 +75,16 @@ Shader "Unlit/Hologram"
             float _GlitchIntensity;
             float _BlurGlitch;
             float _GlitchFrequency;
+            float _TimeInGlitch;
 
             v2f vert (appdata v) //vertice original como input de vertex shader
             {
                 v2f o;
-
+                
+                const float speedInY = 2.0;
+                const float glitch = 0.5;
                 #ifdef _GLITCH_ON
-                    v.vertex.x += _GlitchIntensity * (step(0.5, sin(_Time.y * _GlitchFrequency + v.vertex.y * _BlurGlitch)) * step(0.99, sin(_Time.y * _GlitchSpeed * 0.5)));
+                    v.vertex.x += _GlitchIntensity * (step(glitch, sin(_Time.y * speedInY + v.vertex.y * _BlurGlitch)) * step(_TimeInGlitch, sin(_Time.y * _GlitchSpeed * _GlitchFrequency)));
                 #endif
 
                 o.objVertex = mul(unity_ObjectToWorld, v.vertex);
