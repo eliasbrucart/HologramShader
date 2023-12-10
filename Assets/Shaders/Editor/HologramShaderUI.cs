@@ -46,6 +46,8 @@ public class HologramShaderUI : ShaderGUI
         DrawScanLinesSettings();
 
         DrawGlitchSettings();
+
+        DrawGlowSettings();
     }
 
     void DrawScanLinesSettings()
@@ -83,6 +85,24 @@ public class HologramShaderUI : ShaderGUI
                 _material.EnableKeyword("_GLITCH_ON");
             else
                 _material.DisableKeyword("_GLITCH_ON");
+        }
+    }
+
+    void DrawGlowSettings(){
+        GUILayout.Space(-3);
+        GUILayout.Label("Glow", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        bool toggle = Array.IndexOf(_material.shaderKeywords, "_GLOW_ON") != -1;
+        EditorGUI.BeginChangeCheck();
+        toggle = EditorGUILayout.Toggle("Enable", toggle);
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (toggle)
+                _material.EnableKeyword("_GLOW_ON");
+            else
+                _material.DisableKeyword("_GLOW_ON");
         }
     }
 }

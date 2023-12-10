@@ -12,7 +12,7 @@ Shader "Unlit/Hologram"
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,0,0,1)
         //Valor del grosor de las scanlines
-        _Bias("Bias", Float) = 0
+        _Bias("Bias", Float) = 0 //Borrar mas adelante
         //Configuracion de las scanlines
         _ScanningFrequency("Scanning Frequency", Float) = 100
         _ScanningSpeed("Scanning Speed", Float) = 100
@@ -24,6 +24,10 @@ Shader "Unlit/Hologram"
         _BlurGlitch("Blur Glitch", Range(0, 100)) = 1.0
         _GlitchFrequency("Glitch Frequency", Range(0, 5)) = 5.0
         _TimeInGlitch("Time Glitch", Range(0, 1)) = 0.99
+
+        //Glow
+        _GlowTiling("Glow Tiling", Range(0,1)) = 0.5
+        _GlowSpeed("Glow Speed", Range(0,1)) = 0.5
     }
     SubShader
     {
@@ -76,6 +80,8 @@ Shader "Unlit/Hologram"
             float _BlurGlitch;
             float _GlitchFrequency;
             float _TimeInGlitch;
+            float _GlowTiling;
+            float _GlowSpeed;
 
             v2f vert (appdata v) //vertice original como input de vertex shader
             {
@@ -106,10 +112,17 @@ Shader "Unlit/Hologram"
                 #ifdef _SCAN_ON
                     scan = step(frac(directionVertex * _ScanningFrequency + _Time.w * _ScanningSpeed), _ScanHeight) * _ScanningBrightness; //Este valor representa el brillo de las scanlines
                 #endif
+
+                float glow = 0;
+                #ifdef _GLOW_ON
+                    glow = frac(directionVertex * _GlowTiling - _Time.y * _GlowSpeed);
+                #endif
+
                 //col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
                 //col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 1.9); //Crear variable para este valor de Bias en X
                 //col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
-                col = col * _Color;
+                float glowMultiplier = 1.0;
+                col = col * _Color + (glow * glowMultiplier * _Color);
                 col.a = col.a * _Alpha * (scan); //Aplicamos alpha al canal Alpha del color del fragmento
 
                 col.rgb *= _Brightness;
