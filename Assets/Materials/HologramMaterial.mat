@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FlickerTexture:
+        m_Texture: {fileID: 2800000, guid: ea5f4af375f189c4ea5b9c3f9519a9a1, type: 3}
+        m_Scale: {x: 2.23, y: 3.17}
+        m_Offset: {x: 2.27, y: 1.69}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -68,11 +72,12 @@ Material:
     - _Alpha: 0.46
     - _Bias: 1.63
     - _BlurGlitch: 13
-    - _Brightness: 4.42
+    - _Brightness: 5.26
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FlickerSpeed: 78
     - _GlitchFrequency: 0.42
     - _GlitchIntensity: 0.3
     - _GlitchSpeed: 10.2
@@ -89,7 +94,7 @@ Material:
     - _Scale: 3
     - _ScanBrightness: 100
     - _ScanHeight: 0.28
-    - _ScanningBrightness: 0.7
+    - _ScanningBrightness: 0.53
     - _ScanningFrequency: 100
     - _ScanningSpeed: 2
     - _ScrollSpeedV: 1
