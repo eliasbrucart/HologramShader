@@ -32,6 +32,10 @@ Shader "Unlit/Hologram"
         //Flicker Texture
         _FlickerTexture("Flicker texture", 2D) = "white"{}
         _FlickerSpeed("Flicker Speed", Range(0, 100)) = 1.0
+
+        //Edge
+        _EdgeColor("Edge Color", Color) = (1,1,1,1)
+        _EdgePower("Edge Power", Range(0.0, 10)) = 5.0
     }
     SubShader
     {
@@ -47,6 +51,9 @@ Shader "Unlit/Hologram"
             #pragma shader_feature _SCAN_ON //shader feature para usar compilacion condicional
             #pragma shader_feature _GLOW_ON
             #pragma shader_feature _GLITCH_ON
+            #pragma shader_feature _EDGE_ON
+            #pragma shader_feature _SHAPE_1_ON
+            #pragma shader_feature _SHAPE_2_ON
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
@@ -66,6 +73,8 @@ Shader "Unlit/Hologram"
                 UNITY_FOG_COORDS(2)
                 float4 vertex : SV_POSITION;
                 float4 objVertex : TEXCOORD1;
+                float3 viewDir : TEXCOORD2;
+                float3 worldNormal : NORMAL;
             };
 
             float _Brightness;
@@ -88,6 +97,8 @@ Shader "Unlit/Hologram"
             float _TimeInGlitch;
             float _GlowTiling;
             float _GlowSpeed;
+            fixed4 _EdgeColor;
+            float _EdgePower;
 
             v2f vert (appdata v) //vertice original como input de vertex shader
             {
@@ -128,12 +139,43 @@ Shader "Unlit/Hologram"
                 //Flicker texture
                 fixed4 flicker = tex2D(_FlickerTexture, _Time * _FlickerSpeed);
 
+                //Cone Light
+                //float distance = length(i.vertex.xy);
+                //float coneRadius = 1.0;
+                //float softEdge = 0.5;
+                //float fallOff = saturate((coneRadius - distance) / softEdge);
+
+                //Edge Effect
+                #ifdef _EDGE_ON
+                    half edge = 1.0-saturate(dot(i.viewDir, i.worldNormal));
+                    fixed4 edgeColor = _EdgeColor * pow(edge, _EdgePower);
+                #endif
+
                 //col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
                 //col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 1.9); //Crear variable para este valor de Bias en X
                 //col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
                 float glowMultiplier = 1.0;
-                col = col * _Color + (glow * glowMultiplier * _Color);
-                col.a = col.a * _Alpha * (scan) * flicker; //Aplicamos alpha al canal Alpha del color del fragmento
+
+                #ifdef _EDGE_ON
+                    col = col * _Color + (glow * glowMultiplier * _Color) + edgeColor;
+                #endif
+
+                #ifdef _SHAPE_1_ON
+                    col.a = col.a * _Alpha * (scan) * flicker; //Aplicamos alpha al canal Alpha del color del fragmento
+                    //col = col * _Color + (glow * glowMultiplier * _Color);
+                #endif
+
+                //Otras formas
+                #ifdef _SHAPE_2_ON
+                    col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.y * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
+                    col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + 1.9); //Crear variable para este valor de Bias en X
+                    col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.z * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
+                    col.a = col.a * _Alpha * flicker;
+                    //col.a = col.a * _Alpha * (shape) * flicker;
+                    //col = col * _Color + (glow * glowMultiplier * _Color) + shape;
+                #endif
+
+                //col = col * _Color + (glow * glowMultiplier * _Color);
 
                 col.rgb *= _Brightness;
 

@@ -7,28 +7,19 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HologramMaterial
-  m_Shader: {fileID: 4800000, guid: 35096d3cffbef0c46885a255e6ef7205, type: 3}
-  m_ValidKeywords:
-  - _EDGE_ON
-  - _GLITCH_ON
-  - _GLOW_ON
-  - _SCAN_ON
-  - _SHAPE_1_ON
+  m_Name: ConeHologramMaterial
+  m_Shader: {fileID: 4800000, guid: 1f0871d3470ce364abb51e9ecd76a974, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AlphaTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -49,12 +40,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _FlickerTexture:
-        m_Texture: {fileID: 2800000, guid: ea5f4af375f189c4ea5b9c3f9519a9a1, type: 3}
-        m_Scale: {x: 2.23, y: 3.17}
-        m_Offset: {x: 2.27, y: 1.69}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f878de133fdd1a143bfd3afaa7f34da9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -71,45 +58,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.46
-    - _Bias: 1.63
-    - _BlurGlitch: 13
-    - _Brightness: 1.68
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EdgePower: 1
-    - _FlickerSpeed: 18
-    - _GlitchFrequency: 0.42
-    - _GlitchIntensity: 0.3
-    - _GlitchSpeed: 10.2
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GlowIntensisty: 0.5
-    - _GlowSpeed: 0.28
-    - _GlowTiling: 0.41
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Scale: 3
-    - _ScanBrightness: 100
-    - _ScanHeight: 0.49
-    - _ScanningBrightness: 0.32
-    - _ScanningFrequency: 100
-    - _ScanningSpeed: 2
-    - _ScrollSpeedV: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TimeInGlitch: 0.73
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.032075405, b: 0.032075405, a: 1}
-    - _Direction: {r: 0, g: 1, b: 0, a: 0}
-    - _EdgeColor: {r: 0, g: 1, b: 0.95200634, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

@@ -58,7 +58,7 @@ Material:
     - _HoloDistance: 0.5
     - _HoloSpeed: 1
     - _HoloValue: 1
-    - _RimPower: 0.1
+    - _RimPower: 4.2
     - _Scale: 3
     - _ScanSpeed: 2
     - _ScanTiling: 10

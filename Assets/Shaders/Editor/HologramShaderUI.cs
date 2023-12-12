@@ -48,6 +48,12 @@ public class HologramShaderUI : ShaderGUI
         DrawGlitchSettings();
 
         DrawGlowSettings();
+
+        DrawEdgeSettings();
+
+        DrawShapeType1Settings();
+        
+        DrawShapeType2Settings();
     }
 
     void DrawScanLinesSettings()
@@ -103,6 +109,60 @@ public class HologramShaderUI : ShaderGUI
                 _material.EnableKeyword("_GLOW_ON");
             else
                 _material.DisableKeyword("_GLOW_ON");
+        }
+    }
+
+    void DrawEdgeSettings(){
+        GUILayout.Space(-3);
+        GUILayout.Label("Edge", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        bool toggle = Array.IndexOf(_material.shaderKeywords, "_EDGE_ON") != -1;
+        EditorGUI.BeginChangeCheck();
+        toggle = EditorGUILayout.Toggle("Enable", toggle);
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (toggle)
+                _material.EnableKeyword("_EDGE_ON");
+            else
+                _material.DisableKeyword("_EDGE_ON");
+        }
+    }
+
+    void DrawShapeType1Settings(){
+        GUILayout.Space(-3);
+        GUILayout.Label("Shape Type 1", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        bool toggle = Array.IndexOf(_material.shaderKeywords, "_SHAPE_1_ON") != -1;
+        EditorGUI.BeginChangeCheck();
+        toggle = EditorGUILayout.Toggle("Enable", toggle);
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (toggle)
+                _material.EnableKeyword("_SHAPE_1_ON");
+            else
+                _material.DisableKeyword("_SHAPE_1_ON");
+        }
+    }
+
+    void DrawShapeType2Settings(){
+        GUILayout.Space(-3);
+        GUILayout.Label("Shape Type 2", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+
+        bool toggle = Array.IndexOf(_material.shaderKeywords, "_SHAPE_2_ON") != -1;
+        EditorGUI.BeginChangeCheck();
+        toggle = EditorGUILayout.Toggle("Enable", toggle);
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (toggle)
+                _material.EnableKeyword("_SHAPE_2_ON");
+            else
+                _material.DisableKeyword("_SHAPE_2_ON");
         }
     }
 }
