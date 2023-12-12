@@ -122,7 +122,9 @@ Shader "Unlit/Hologram"
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
                 //                                                                         w          cantidad de scanlines (revisar)
-                half directionVertex = (dot(i.objVertex, normalize(float4(_Direction.xyz, 1.0))));
+                half directionVertex = (dot(i.objVertex, normalize(float4(_Direction.xyz, 1.0)))); //half es un float con menos precision
+                //Se usa para dar una mejor performance al shader para valores que no requieren tanta precision.
+                //DirectionVertex no tiene que ser tan preciso
 
                 //Scanlines
                 float scan = 0.0;

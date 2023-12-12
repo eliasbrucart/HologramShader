@@ -79,7 +79,7 @@ public class HologramShaderUI : ShaderGUI
     {
         GUILayout.Space(-3);
         GUILayout.Label("Glitch", EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
+        //EditorGUI.indentLevel++;
 
         bool toggle = Array.IndexOf(_material.shaderKeywords, "_GLITCH_ON") != -1;
         EditorGUI.BeginChangeCheck();
@@ -97,7 +97,7 @@ public class HologramShaderUI : ShaderGUI
     void DrawGlowSettings(){
         GUILayout.Space(-3);
         GUILayout.Label("Glow", EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
+        //EditorGUI.indentLevel++;
 
         bool toggle = Array.IndexOf(_material.shaderKeywords, "_GLOW_ON") != -1;
         EditorGUI.BeginChangeCheck();
@@ -115,7 +115,7 @@ public class HologramShaderUI : ShaderGUI
     void DrawEdgeSettings(){
         GUILayout.Space(-3);
         GUILayout.Label("Edge", EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
+        //EditorGUI.indentLevel++;
 
         bool toggle = Array.IndexOf(_material.shaderKeywords, "_EDGE_ON") != -1;
         EditorGUI.BeginChangeCheck();
@@ -133,7 +133,7 @@ public class HologramShaderUI : ShaderGUI
     void DrawShapeType1Settings(){
         GUILayout.Space(-3);
         GUILayout.Label("Shape Type 1", EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
+        //EditorGUI.indentLevel++;
 
         bool toggle = Array.IndexOf(_material.shaderKeywords, "_SHAPE_1_ON") != -1;
         EditorGUI.BeginChangeCheck();
@@ -151,7 +151,7 @@ public class HologramShaderUI : ShaderGUI
     void DrawShapeType2Settings(){
         GUILayout.Space(-3);
         GUILayout.Label("Shape Type 2", EditorStyles.boldLabel);
-        EditorGUI.indentLevel++;
+        //EditorGUI.indentLevel++;
 
         bool toggle = Array.IndexOf(_material.shaderKeywords, "_SHAPE_2_ON") != -1;
         EditorGUI.BeginChangeCheck();
