@@ -113,7 +113,7 @@ Shader "Unlit/Hologram"
                 o.objVertex = mul(unity_ObjectToWorld, v.vertex);
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                //UNITY_TRANSFER_FOG(o,o.vertex);
                 return o; //vertice procesado que retornaremos para pasarlo al fragment
             }
 
@@ -145,10 +145,11 @@ Shader "Unlit/Hologram"
                 //float softEdge = 0.5;
                 //float fallOff = saturate((coneRadius - distance) / softEdge);
 
-                //Edge Effect
+                //Edge 
+                fixed4 edgeColor = (0,0,0,0);
                 #ifdef _EDGE_ON
                     half edge = 1.0-saturate(dot(i.viewDir, i.worldNormal));
-                    fixed4 edgeColor = _EdgeColor * pow(edge, _EdgePower);
+                    edgeColor = _EdgeColor * pow(edge, _EdgePower);
                 #endif
 
                 //col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
@@ -156,13 +157,9 @@ Shader "Unlit/Hologram"
                 //col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.x * _ScanningSpeed) + 0.9); //Crear variable para este valor de Bias en Z
                 float glowMultiplier = 1.0;
 
-                #ifdef _EDGE_ON
-                    col = col * _Color + (glow * glowMultiplier * _Color) + edgeColor;
-                #endif
-
                 #ifdef _SHAPE_1_ON
+                    col = col * _Color + (glow * glowMultiplier * _Color) + edgeColor;
                     col.a = col.a * _Alpha * (scan) * flicker; //Aplicamos alpha al canal Alpha del color del fragmento
-                    //col = col * _Color + (glow * glowMultiplier * _Color);
                 #endif
 
                 //Otras formas
