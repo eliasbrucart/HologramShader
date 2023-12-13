@@ -54,8 +54,8 @@ Shader "Unlit/Hologram"
             #pragma shader_feature _EDGE_ON
             #pragma shader_feature _SHAPE_1_ON
             #pragma shader_feature _SHAPE_2_ON
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vert //declaramos vertex shader
+            #pragma fragment frag //declaramos fragment shader
             // make fog work
             #pragma multi_compile_fog
 
@@ -123,31 +123,37 @@ Shader "Unlit/Hologram"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 //Se utiliza fixed para colores normales que se almacenan en texturas
                 //se usa para operaciones sencillas
+                //sampleamos la textura original del modelo para agregarle los efectos
+
                 //                                                                        w          cantidad de scanlines (revisar)
                 half directionVertex = (dot(i.objVertex, normalize(float4(_Direction.xyz, 1.0)))); //half es un float con menos precision
                 //Se usa para dar una mejor performance al shader para valores que no requieren tanta precision.
                 //DirectionVertex no tiene que ser tan preciso
+                //Genera un vector resultante para la direccion del vertice
 
                 //Scanlines
                 float scan = 0.0;
                 #ifdef _SCAN_ON
-                    scan = step(frac(directionVertex * _ScanningFrequency + _Time.w * _ScanningSpeed), _ScanHeight) * _ScanningBrightness; //Este valor representa el brillo de las scanlines
+                    scan = step(frac(directionVertex * _ScanningFrequency + _Time.y * _ScanningSpeed), _ScanHeight) * _ScanningBrightness; //Este valor representa el brillo de las scanlines
+                    //Generamos las scanlines, setp function genera la linea y la posiciona
                 #endif
 
                 //glow
                 float glow = 0;
                 #ifdef _GLOW_ON
                     glow = frac(directionVertex * _GlowTiling - _Time.y * _GlowSpeed);
+                    //Se fracciona el numero resultante para generar el glow, como se va a usar en un uv, el numero entero lo ignora, deja los numero detras de la coma.
                 #endif
 
                 //Flicker texture
                 fixed4 flicker = tex2D(_FlickerTexture, _Time * _FlickerSpeed);
+                //Sampleamos una textura que le aplicaremos al fragmento para generar el efecto de parpadeo
 
                 //Edge 
                 fixed4 edgeColor = (0,0,0,0);
                 #ifdef _EDGE_ON
-                    half edge = 1.0-saturate(dot(i.viewDir, i.worldNormal));
-                    edgeColor = _EdgeColor * pow(edge, _EdgePower);
+                    half edge = 1.0-saturate(dot(i.viewDir, i.worldNormal)); //saturamos el vector para que el borde tenga mas color
+                    edgeColor = _EdgeColor * pow(edge, _EdgePower); //Le damos mas potencia al color del borde.
                 #endif
 
                 //col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
@@ -164,11 +170,14 @@ Shader "Unlit/Hologram"
                 const float _Bias1 = 1.9;
                 const float _Bias2 = 0.9;
                 #ifdef _SHAPE_2_ON
-                    col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.y * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
-                    col *= max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias1); //Crear variable para este valor de Bias en X
-                    col *= max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.z * _ScanningSpeed) + _Bias2); //Crear variable para este valor de Bias en Z
-                    col += (glow * glowMultiplier * _Color);
-                    col.a = col.a * _Alpha * flicker;
+                    #ifdef _SCAN_ON
+                        col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.y * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines tipo 2
+                        col *= max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias1);
+                        col *= max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.z * _ScanningSpeed) + _Bias2);
+                        //Devuelve el maximo entre dos valores. Se usa para generar el fragmento de las shape tipo 2
+                        col += (glow * glowMultiplier * _Color);
+                        col.a = col.a * _Alpha * flicker;
+                    #endif
                     //col.a = col.a * _Alpha * (shape) * flicker;
                     //col = col * _Color + (glow * glowMultiplier * _Color) + shape;
                 #endif
