@@ -11,8 +11,8 @@ Shader "Unlit/Hologram"
         //Color principal
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,0,0,1)
-        //Valor del grosor de las scanlines
-        _Bias("Bias", Float) = 0
+        //Valor del grosor de las scanlines para type 2
+        _Bias("Bias", Range(0, 1)) = 0.5
         //Configuracion de las scanlines
         _ScanningFrequency("Scanning Frequency", Float) = 100
         _ScanningSpeed("Scanning Speed", Range(0, 50)) = 5
@@ -161,10 +161,13 @@ Shader "Unlit/Hologram"
                 #endif
 
                 //Otras formas
+                const float _Bias1 = 1.9;
+                const float _Bias2 = 0.9;
                 #ifdef _SHAPE_2_ON
                     col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.y * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
-                    col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias); //Crear variable para este valor de Bias en X
-                    col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.z * _ScanningSpeed) + _Bias); //Crear variable para este valor de Bias en Z
+                    col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias1); //Crear variable para este valor de Bias en X
+                    col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.z * _ScanningSpeed) + _Bias2); //Crear variable para este valor de Bias en Z
+                    col += (glow * glowMultiplier * _Color);
                     col.a = col.a * _Alpha * flicker;
                     //col.a = col.a * _Alpha * (shape) * flicker;
                     //col = col * _Color + (glow * glowMultiplier * _Color) + shape;
