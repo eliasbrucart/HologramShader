@@ -165,8 +165,8 @@ Shader "Unlit/Hologram"
                 const float _Bias2 = 0.9;
                 #ifdef _SHAPE_2_ON
                     col = _Color * max(0, cos(i.objVertex.y * _ScanningFrequency + _Time.y * _ScanningSpeed) + _Bias); //Bias es el valor de grosor de las scan lines
-                    col *= 1 - max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias1); //Crear variable para este valor de Bias en X
-                    col *= 1 - max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.z * _ScanningSpeed) + _Bias2); //Crear variable para este valor de Bias en Z
+                    col *= max(0, cos(i.objVertex.x * _ScanningFrequency + _Time.x * _ScanningSpeed) + _Bias1); //Crear variable para este valor de Bias en X
+                    col *= max(0, cos(i.objVertex.z * _ScanningFrequency + _Time.z * _ScanningSpeed) + _Bias2); //Crear variable para este valor de Bias en Z
                     col += (glow * glowMultiplier * _Color);
                     col.a = col.a * _Alpha * flicker;
                     //col.a = col.a * _Alpha * (shape) * flicker;
