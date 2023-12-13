@@ -8,11 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HologramMaterial2
-  m_Shader: {fileID: 4800000, guid: f2d86b92b4c2ba549bcc1c9587d419ce, type: 3}
+  m_Shader: {fileID: 4800000, guid: 35096d3cffbef0c46885a255e6ef7205, type: 3}
   m_ValidKeywords:
+  - _EDGE_ON
   - _GLITCH_ON
   - _GLOW_ON
   - _SCAN_ON
+  - _SHAPE_1_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,15 +25,39 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Flicker2Tex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FlickerTex:
-        m_Texture: {fileID: 2800000, guid: ea5f4af375f189c4ea5b9c3f9519a9a1, type: 3}
-        m_Scale: {x: 1.66, y: 1.28}
-        m_Offset: {x: 0, y: -0.02}
-    - _FlickerTex2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlickerTexture:
         m_Texture: {fileID: 2800000, guid: ea5f4af375f189c4ea5b9c3f9519a9a1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -39,36 +65,66 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.47
-    - _Brightness: 1.19
-    - _EmissionMultiplier: 1
+    - _Alpha: 0.19
+    - _Bias: 0.78
+    - _BlurGlitch: 13
+    - _Brightness: 1.1
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _EdgePower: 1.9
     - _FlickerScale2: 3
-    - _FlickerSpeed: 87
-    - _FlickerSpeed2: 61
-    - _Fold: 3
-    - _GlitchDensity: 0
-    - _GlitchIntensity: 1.01
-    - _GlitchPeriod: 0
-    - _GlitchSpeed: 11.8
-    - _GlitchStrength: 0
-    - _GlowSpeed: -5.6
-    - _GlowTiling: 0.9
-    - _HoloDistance: 0.5
-    - _HoloSpeed: 1
-    - _HoloValue: 1
-    - _RimPower: 4.2
+    - _FlickerSpeed: 13
+    - _FlickerSpeed2: 1
+    - _Fold: 1
+    - _GlitchFrequency: 0.35
+    - _GlitchIntensity: 0.3
+    - _GlitchSpeed: 13.8
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _GlowIntensisty: 0.5
+    - _GlowSpeed: 0.54
+    - _GlowTiling: 0.68
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _RimPower: 5
     - _Scale: 3
-    - _ScanSpeed: 2
-    - _ScanTiling: 10
+    - _ScanHeight: 0.55
+    - _ScanSpeed: 1
+    - _ScanTiling: 0.05
+    - _ScanningBrightness: 0.49
+    - _ScanningFrequency: 100
+    - _ScanningSpeed: 5.4
     - _ScrollSpeedV: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _TimeInGlitch: 0.42
+    - _UVSec: 0
+    - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.10383463, g: 1, b: 0, a: 1}
     - _Direction: {r: 0, g: 1, b: 0, a: 0}
-    - _GlitchDirection: {r: 0, g: 1, b: 0, a: 0}
-    - _HoloColor: {r: 1, g: 1, b: 1, a: 1}
-    - _HoloDirection: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0.78688645, g: 1, b: 0, a: 1}
+    - _EdgeColor: {r: 0.22197804, g: 1, b: 0.15471691, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

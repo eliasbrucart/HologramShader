@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HologramMaterial_3
+  m_Name: HologramMaterial33
   m_Shader: {fileID: 4800000, guid: 305825d6b0b40e14ea9473f3b124a091, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

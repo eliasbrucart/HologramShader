@@ -12,10 +12,10 @@ Shader "Unlit/Hologram"
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,0,0,1)
         //Valor del grosor de las scanlines
-        _Bias("Bias", Float) = 0 //Borrar mas adelante
+        _Bias("Bias", Float) = 0
         //Configuracion de las scanlines
         _ScanningFrequency("Scanning Frequency", Float) = 100
-        _ScanningSpeed("Scanning Speed", Float) = 100
+        _ScanningSpeed("Scanning Speed", Range(0, 50)) = 5
         _ScanningBrightness("Scanning Brightness", Range(0.0, 1.0)) = 0.5
         _ScanHeight("Scan Height", Range(0.0, 1.0)) = 0.5
         //Configuracion de Glitch
@@ -121,7 +121,9 @@ Shader "Unlit/Hologram"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                //                                                                         w          cantidad de scanlines (revisar)
+                //Se utiliza fixed para colores normales que se almacenan en texturas
+                //se usa para operaciones sencillas
+                //                                                                        w          cantidad de scanlines (revisar)
                 half directionVertex = (dot(i.objVertex, normalize(float4(_Direction.xyz, 1.0)))); //half es un float con menos precision
                 //Se usa para dar una mejor performance al shader para valores que no requieren tanta precision.
                 //DirectionVertex no tiene que ser tan preciso
@@ -140,12 +142,6 @@ Shader "Unlit/Hologram"
 
                 //Flicker texture
                 fixed4 flicker = tex2D(_FlickerTexture, _Time * _FlickerSpeed);
-
-                //Cone Light
-                //float distance = length(i.vertex.xy);
-                //float coneRadius = 1.0;
-                //float softEdge = 0.5;
-                //float fallOff = saturate((coneRadius - distance) / softEdge);
 
                 //Edge 
                 fixed4 edgeColor = (0,0,0,0);
