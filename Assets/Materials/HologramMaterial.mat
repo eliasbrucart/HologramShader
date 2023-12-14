@@ -73,8 +73,8 @@ Material:
     m_Floats:
     - _Alpha: 0.31
     - _Bias: 1.63
-    - _BlurGlitch: 13
-    - _Brightness: 1.7
+    - _BlurGlitch: 25
+    - _Brightness: 2.33
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -83,7 +83,7 @@ Material:
     - _FlickerSpeed: 13
     - _GlitchFrequency: 0.42
     - _GlitchIntensity: 0.3
-    - _GlitchSpeed: 10.2
+    - _GlitchSpeed: 19.6
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -96,10 +96,10 @@ Material:
     - _Parallax: 0.02
     - _Scale: 3
     - _ScanBrightness: 100
-    - _ScanHeight: 0.7
-    - _ScanningBrightness: 0.15
-    - _ScanningFrequency: 100
-    - _ScanningSpeed: 3.5
+    - _ScanHeight: 0.38
+    - _ScanningBrightness: 0.27
+    - _ScanningFrequency: 20
+    - _ScanningSpeed: 7.5
     - _ScrollSpeedV: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -108,7 +108,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.425766, g: 1, b: 0, a: 1}
     - _Direction: {r: 0, g: 1, b: 0, a: 0}
     - _EdgeColor: {r: 1, g: 0, b: 0.1975298, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

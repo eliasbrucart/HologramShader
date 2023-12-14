@@ -39,11 +39,12 @@ Shader "Unlit/Hologram"
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" "RenderType" = "Transparent"} //Configuraciones para el shader
-        ZWrite Off
-        LOD 100
-        Blend SrcAlpha One
-        Cull Off
+        Tags { "Queue" = "Transparent" "RenderType" = "Transparent"} //Tags
+        //Configuraciones para el shader
+        ZWrite Off //depth buffer apagado para hacer el efecto semitransparente
+        LOD 100 //Nivel de detalle
+        Blend SrcAlpha One //Determina como es la salida del canal alpha del fragment
+        Cull Off //Determina que poligonos se renderizan segun la camara, apagado.
 
         Pass
         {
@@ -108,6 +109,7 @@ Shader "Unlit/Hologram"
                 const float glitch = 0.5;
                 #ifdef _GLITCH_ON
                     v.vertex.x += _GlitchIntensity * (step(glitch, sin(_Time.y * speedInY + v.vertex.y * _BlurGlitch)) * step(_TimeInGlitch, sin(_Time.y * _GlitchSpeed * _GlitchFrequency)));
+                    //depende de los valores que le pases a step tiene distintos resultados
                 #endif
 
                 o.objVertex = mul(unity_ObjectToWorld, v.vertex);
